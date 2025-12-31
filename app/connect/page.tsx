@@ -1,0 +1,189 @@
+"use client"
+
+import Image from 'next/image'
+import { useState } from 'react'
+import { Italianno } from "next/font/google";
+import { InstagramIcon, MailIcon } from 'lucide-react';
+import Confetti from 'react-confetti';
+
+const italianno = Italianno({
+    subsets: ['latin'],
+    weight: '400',
+});
+
+export default function Connect() {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '' });
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        setIsSubmitting(true);
+        const form = event.target;
+        const formData = {
+            name: form.name.value,
+            email: form.email.value,
+            message: form.message.value,
+        };
+
+        try {
+            const response = await fetch('/api/connect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                setShowConfetti(true);
+                setTimeout(() => setShowConfetti(false), 5000);
+
+                setToast({ show: true, message: 'Thankyou for your Message!' });
+                setTimeout(() => setToast({ show: false, message: '' }), 5000);
+
+                event.target.reset();
+            }
+
+            else {
+                setToast({ show: true, message: 'Failed to send message. Please try again later.' });
+                setTimeout(() => setToast({ show: false, message: '' }), 4000);
+            }
+        }
+        catch (error) {
+            console.error('Error submitting form:', error);
+            setToast({ show: true, message: 'An error occurred. Please try again later.' });
+            setTimeout(() => setToast({ show: false, message: '' }), 4000);
+        }
+        finally {
+            setIsSubmitting(false);
+        }
+    }
+
+
+
+
+
+
+
+    const img = "https://scontent.cdninstagram.com/v/t51.82787-15/533074614_17915912832171886_8883678285643228575_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=MzcwMDM2NTM3Mjk4MDIzNzIxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0MzN4MTkwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=08dJvg98-5cQ7kNvwH1UYll&_nc_oc=AdmEuiebvK9n8vfzR7qamQuQ1MoKA0xxJGPyb7zl0vTD8VBW12hfBxgWz-h-ou4G31U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=jA8Kl_lI42a9SSGPIdumwQ&oh=00_AfmBH6Vf3rDHAIoUWcmP0_McGC_qkn-fQBR9jngGFz7MZA&oe=6935062D"
+
+    const emailAddress = "kalaa.bliss@gmail.com";
+    // const subject = encodeURIComponent("A heartful message");
+    const subject = "A heartful message";
+    const href = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}&su=${subject}`;
+
+    return (
+        <div className='w-screen'>
+
+            {showConfetti && (
+                <Confetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    recycle={false}
+                    numberOfPieces={500}
+                />
+            )}
+
+            {toast.show && (
+                <div className="fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-xl transform transition-all duration-300 bg-linear-to-r from-pink-400 to-pink-500 text-white animate-slide-in">
+                    <p className="font-medium">{toast.message}</p>
+                </div>
+            )}
+
+            <div className="items-center flex flex-col p-12 min-w-screen">
+                <h1 className={`${italianno.className} text-center text-6xl md:text-7xl mb-4 `} >Connect </h1>
+                <p className='text-2xl text-gray-600 hidden'>A Showcase of my work</p></div>
+            <div className={`bg-[url("/bg.png")] bg-cover bg-center min-h-screen w-full flex items-center justify-center`}>
+                <div className="mx-16 inline-flex items-center justify-center gap-8 bg-white p-8 rounded-lg flex-col md:flex-row">
+
+                    <div className="">
+                        <Image src={img} alt="Image" className="rounded-lg"
+                            width={346}
+                            height={462} />
+
+                        <a
+                            href="https://www.instagram.com/kalaa_bliss/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 flex items-center">
+                            <InstagramIcon />
+                            <span className="ml-2">@kalaa_bliss</span>
+                        </a>
+                        <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 flex items-center">
+                            <MailIcon />
+                            <span className="ml-2">
+                                kalaa.bliss@gmail.com
+                            </span>
+                        </a>
+
+                    </div>
+
+                    <form
+                        className="w-full max-w-md"
+                        onSubmit={handleSubmit} >
+                        <div className="flex flex-col mb-6">
+                            <label htmlFor="name" className="block mb-2 text-gray-700 font-medium">
+                                What&apos;s your sweet name?</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder='Enter Name'
+                                disabled={isSubmitting}
+                                required
+                                className="rounded-lg bg-gray-100 border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-6">
+                            <label htmlFor="email" className="block mb-2 text-gray-700 font-medium">
+                                What&apos;s your email address?</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder='Enter Email'
+                                disabled={isSubmitting}
+                                required
+                                className="rounded-lg bg-gray-100 border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all"
+                            />
+                        </div>
+                        <div className="flex flex-col mb-6">
+                            <label htmlFor="message" className="block mb-2 text-gray-700 font-medium">
+                                Share your thoughts</label>
+                            <textarea
+                                name="message"
+                                id="message"
+                                rows={5}
+                                placeholder='Enter Message'
+                                disabled={isSubmitting}
+                                required
+                                className="rounded-lg bg-gray-100 border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all resize-none"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-pink-400 hover:bg-pink-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+
+                            {isSubmitting ? 'Sending...' : 'Send Message'}
+                        </button>
+                    </form>
+
+
+
+
+                </div>
+            </div>
+        </div >
+    )
+}
