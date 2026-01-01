@@ -30,20 +30,22 @@ export default function Navbar() {
                     <Link className={`hover:text-black  ${pathname === '/' ? 'active' : ''}`} href="/" >Home
                     </Link>
                     <Link className={`hover:text-black  ${pathname === '/about' ? 'active' : ''}`} href="/about">About</Link>
-                    <Link className={`hover:text-black  ${pathname === '/collaboration' ? 'active' : ''}`} href="/collaboration">Collaboration</Link>
+                    <Link className={`hover:text-black  ${pathname === '/collaboration' ? 'active' : ''}`} href="/collaboration">Collaborate</Link>
                     <Link className={`hover:text-black  ${pathname === '/gallery' ? 'active' : ''}`} href="/gallery">Gallery</Link>
                     <Link className={`hover:text-black  ${pathname === '/connect' ? 'active' : ''}`} href="/connect">Connect</Link>
                 </div>
 
-                <div className="hidden md:flex items-center gap-2">
-                    <InstagramIcon />
-                    <span>@kalaabliss</span>
-                </div>
+                <Link
+                    className="hidden md:flex items-center gap-2"
+                    href="https://www.instagram.com/kalaa_bliss"
+                    target="_blank">
+                    <InstagramIcon /><span>@kalaabliss</span></Link>
+
 
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className=" rounded-md transition-colors duration-300
-                    block md:hidden z-50">
+                    block md:hidden z-50 transition-smooth">
                     {isMenuOpen ? <XIcon size={28} /> : <Menu size={28} />}
                 </button>
             </nav>
@@ -60,4 +62,4 @@ export default function Navbar() {
             </nav>
         </div>
     )
-}
+}   

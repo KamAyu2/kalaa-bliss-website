@@ -3,6 +3,7 @@
 import ClientGallery from "./clientgallery";
 import { Italianno } from "next/font/google";
 import { Metadata } from "next";
+// import AnimateOnScroll from '../components/AnimateOnScroll';
 
 const italianno = Italianno({
     subsets: ['latin'],
@@ -53,13 +54,97 @@ export const metadata: Metadata = {
 
 export default function Gallery() {
 
+    const gallerySchema = {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "Kalaa Bliss Art Gallery",
+        "description": "Explore animations, illustrations, and brand collaborations by Khushbu Gupta (Kalaa Bliss)",
+        "url": "https://kalaabliss.in/gallery",
+        "author": {
+            "@type": "Person",
+            "name": "Khushbu Gupta",
+            "alternateName": "Kalaa Bliss"
+        },
+        "image": [
+            // Example image structure - add your actual images
+            {
+                "@type": "ImageObject",
+                "contentUrl": "https://kalaabliss.in/work/a.png",
+                "name": "Animated Reel Example",
+                "description": "Custom animated content for social media",
+                "creator": {
+                    "@type": "Person",
+                    "name": "Khushbu Gupta"
+                }
+            },
+            {
+                "@type": "ImageObject",
+                "contentUrl": "https://kalaabliss.in/work/b.png",
+                "name": "Illustrated Story Example",
+                "description": "Dynamic visual narrative sequence",
+                "creator": {
+                    "@type": "Person",
+                    "name": "Khushbu Gupta"
+                }
+            }
+            // Add more images as needed
+        ],
+        "numberOfItems": 400000, // Your 400k+ posts
+        "associatedMedia": {
+            "@type": "MediaObject",
+            "contentUrl": "https://kalaabliss.in/gallery"
+        }
+    };
+
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Art & Animation Gallery",
+        "description": "Browse through animated reels, custom illustrations, and brand collaborations",
+        "url": "https://kalaabliss.in/gallery",
+        "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+                {
+                    "@type": "CreativeWork",
+                    "position": 1,
+                    "name": "Animated Reels Collection",
+                    "description": "Custom animated content for brands"
+                },
+                {
+                    "@type": "CreativeWork",
+                    "position": 2,
+                    "name": "Brand Illustrations",
+                    "description": "Bespoke illustrations for brand identity"
+                },
+                {
+                    "@type": "CreativeWork",
+                    "position": 3,
+                    "name": "Story Sequences",
+                    "description": "Dynamic illustrated stories"
+                }
+            ]
+        }
+    };
+
     return (
-        <div>
-            <div className="items-center flex flex-col p-12">
-                <h1 className={`${italianno.className} text-6xl md:text-7xl mb-4 `}> Gallery </h1>
-                <p className='text-2xl text-gray-600 hidden'>A Showcase of my work</p>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+            />
+            {/* <AnimateOnScroll animation="fade-in-down"> */}
+            <div>
+                <div className="items-center flex flex-col p-12">
+                    <h1 className={`${italianno.className} text-6xl md:text-7xl mb-4 `}> Gallery </h1>
+                </div>
+                <ClientGallery />
             </div>
-            <ClientGallery />
-        </div>
+            {/* </AnimateOnScroll> */}
+        </>
     )
 }
