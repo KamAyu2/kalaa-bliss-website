@@ -67,8 +67,7 @@ Visual storytelling sequences for audience engagement.
 **Includes**
 - 5–10 story frames  
 - Interactive elements  
-- Swipe-up ready formats  
-- Reusable templates  
+- Swipe-up ready formats   
 
 ---
 
