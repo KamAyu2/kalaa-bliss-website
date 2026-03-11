@@ -13,8 +13,8 @@ Kalaa Bliss is a creative portfolio platform designed to present the artistic jo
 
 The website acts as a digital space where:
 
-- Art meets storytelling
-- Brands discover collaboration opportunities
+- Art meets storytelling 
+- Brands discover collaboration & opportunities
 - Audiences experience creative animation content
 - Followers can connect with the artist
 
